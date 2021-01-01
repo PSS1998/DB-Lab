@@ -1,0 +1,151 @@
+-- *************** SqlDBM: PostgreSQL ****************;
+-- ***************************************************;
+
+
+-- ************************************** "Company"
+
+CREATE TABLE "Company"
+(
+ "company_id"        int NOT NULL,
+ "name"              char(50) NOT NULL,
+ "website"           char(50) NOT NULL,
+ "picture"           char(50) NOT NULL,
+ "subscription_date" timestamp NOT NULL,
+ "subscription"      char(50) NOT NULL,
+ "address"           char(50) NOT NULL,
+ "phone_number"      char(50) NOT NULL,
+ CONSTRAINT "PK_company" PRIMARY KEY ( "company_id" )
+);
+
+
+
+
+
+
+
+-- *************** SqlDBM: PostgreSQL ****************;
+-- ***************************************************;
+
+
+-- ************************************** "Jobseeker"
+
+CREATE TABLE "Jobseeker"
+(
+ "username"     char(50) NOT NULL,
+ "password"     char(256) NOT NULL,
+ "name"         char(50) NOT NULL,
+ "phone_number" char(50) NOT NULL,
+ "email"        char(50) NOT NULL,
+ "resume"       char(50) NOT NULL,
+ "picture"      char(50) NOT NULL,
+ "degree"       char(50) NOT NULL,
+ "experience"   char(50) NOT NULL,
+ CONSTRAINT "PK_jobseeker" PRIMARY KEY ( "username" )
+);
+
+
+
+
+
+
+
+-- *************** SqlDBM: PostgreSQL ****************;
+-- ***************************************************;
+
+
+-- ************************************** "Employee"
+
+CREATE TABLE "Employee"
+(
+ "employee_id" int NOT NULL,
+ "name"        char(50) NOT NULL,
+ "position"    char(50) NOT NULL,
+ "company_id"  int NOT NULL,
+ CONSTRAINT "PK_employee" PRIMARY KEY ( "employee_id" )
+);
+
+
+
+
+
+
+
+
+
+-- *************** SqlDBM: PostgreSQL ****************;
+-- ***************************************************;
+
+
+-- ************************************** "Job"
+
+CREATE TABLE "Job"
+(
+ "job_id"      bigint NOT NULL,
+ "description" varchar(50) NOT NULL,
+ "location"    char(50) NOT NULL,
+ "minimum_exp" char(50) NOT NULL,
+ "salary"      char(50) NOT NULL,
+ "date"        timestamp NOT NULL,
+ "archived"    boolean NOT NULL,
+ "employee_id" int NOT NULL,
+ CONSTRAINT "PK_job" PRIMARY KEY ( "job_id" )
+);
+
+
+
+
+
+
+
+
+
+-- *************** SqlDBM: PostgreSQL ****************;
+-- ***************************************************;
+
+
+-- ************************************** "Apply"
+
+CREATE TABLE "Apply"
+(
+ "apply_id" bigint NOT NULL,
+ "time"     timestamp NOT NULL,
+ "guaranty" boolean NOT NULL,
+ "status"   char(50) NOT NULL,
+ "username" char(50) NOT NULL,
+ "job_id"   bigint NOT NULL,
+ CONSTRAINT "PK_apply" PRIMARY KEY ( "apply_id" )
+);
+
+
+
+
+
+
+
+
+
+ALTER TABLE "Employee" ADD CONSTRAINT "FK_34" FOREIGN KEY ( "company_id" ) REFERENCES "Company" ( "company_id" );
+ALTER TABLE "Job" ADD CONSTRAINT "FK_47" FOREIGN KEY ( "employee_id" ) REFERENCES "Employee" ( "employee_id" );
+ALTER TABLE "Apply" ADD CONSTRAINT "FK_41" FOREIGN KEY ( "username" ) REFERENCES "Jobseeker" ( "username" );
+ALTER TABLE "Apply" ADD CONSTRAINT "FK_44" FOREIGN KEY ( "job_id" ) REFERENCES "Job" ( "job_id" );
+
+
+CREATE INDEX "fkIdx_34" ON "Employee"
+(
+ "company_id"
+);
+
+CREATE INDEX "fkIdx_47" ON "Job"
+(
+ "employee_id"
+);
+
+CREATE INDEX "fkIdx_41" ON "Apply"
+(
+ "username"
+);
+
+CREATE INDEX "fkIdx_44" ON "Apply"
+(
+ "job_id"
+);
